@@ -8,14 +8,11 @@ import io.kotest.matchers.shouldBe
 class PublicacionTest : DescribeSpec ({
 
     describe("publicaciones"){
-        val calidadSd = CalidadSd()
-        val calidad720 = Calidad720()
-        val calidad1080 = Calidad1080()
 
         val fotoEnCuzco = Foto(768, 1024)
         val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
-        val videoEnAruba = Video(30,calidadSd)
-        val videoEnMiami = Video(50,calidad720)
+        val videoEnAruba = Video(30,CalidadSd)
+        val videoEnMiami = Video(50,Calidad720)
 
         describe("de tipo foto"){
             it("se crea correctamente una publicacion del tipo foto"){

@@ -37,16 +37,16 @@ class Video(val duracion: Int, val calidad: Calidad) : Publicacion(){
 abstract class Calidad() {
  open fun valorPorCalidad() = 1
 }
-class CalidadSd() : Calidad(){
+object CalidadSd : Calidad(){
 
 }
 
-class Calidad720() : Calidad() {
+object Calidad720 : Calidad() {
   override fun valorPorCalidad() = 3
 }
 
-class Calidad1080(): Calidad() {
-  override fun valorPorCalidad() = 6
+object Calidad1080: Calidad() {
+  override fun valorPorCalidad() = Calidad720.valorPorCalidad() * 2
 }
 object factorDeCompresion{
   var factor = 0.7
