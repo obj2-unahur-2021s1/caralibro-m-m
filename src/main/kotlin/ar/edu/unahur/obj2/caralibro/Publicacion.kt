@@ -3,8 +3,8 @@ package ar.edu.unahur.obj2.caralibro
 import kotlin.math.ceil
 
 abstract class Publicacion {
-
-  var cantidadDeMeGustas = 0
+  var usuariosQueLeGusta = mutableListOf<Usuario>()
+  var cantidadDeMeGustas = 0 // esto puede eliminarse e incorporarse a la función un 'lenght'
   abstract fun espacioQueOcupa(): Int
 
   fun aumentarMeGusta(){
