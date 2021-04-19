@@ -8,17 +8,27 @@ import io.kotest.matchers.shouldBe
 class PublicacionTest : DescribeSpec ({
 
     describe("publicaciones"){
-        val calidadSd = Sd()
+        val calidadSd = CalidadSd()
+        val calidad720 = Calidad720()
+        val calidad1080 = Calidad1080()
 
         val fotoEnCuzco = Foto(768, 1024)
         val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
         val videoEnAruba = Video(30,calidadSd)
+        val videoEnMiami = Video(50,calidad720)
+
         describe("de tipo foto"){
             it("se crea correctamente una publicacion del tipo foto"){
                 fotoEnCuzco.shouldNotBeNull()
             }
             it("el tamanio que ocupa deberia ser 550548"){
-
+                fotoEnCuzco.espacioQueOcupa().shouldBe(550503)
+            }
+            it("se crea una nueva foto, se modifica el factor de compresion y se les aplica a las 2"){
+                val fotoEnElObelisco = Foto(768,1020)
+                fotoEnElObelisco.cambiarElValorDeCompresion(0.5)
+                fotoEnCuzco.espacioQueOcupa().shouldBe(393216)
+                fotoEnElObelisco.espacioQueOcupa().shouldBe(391680)
             }
         }
         describe("de tipo texto"){
