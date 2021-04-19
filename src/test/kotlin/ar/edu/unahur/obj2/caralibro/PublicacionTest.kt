@@ -30,6 +30,10 @@ class PublicacionTest : DescribeSpec ({
                 fotoEnCuzco.espacioQueOcupa().shouldBe(393216)
                 fotoEnElObelisco.espacioQueOcupa().shouldBe(391680)
             }
+            it("aumenta su cantidad de me gusta"){
+                fotoEnCuzco.aumentarMeGusta()
+                fotoEnCuzco.cantidadDeMeGustas.shouldBe(1)
+            }
         }
         describe("de tipo texto"){
             it("se crea correctamente una publicacion del tipo texto"){

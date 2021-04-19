@@ -15,6 +15,13 @@ class UsuarioTest : DescribeSpec({
         juana.agregarPublicacion(saludoCumpleanios)
         juana.espacioDePublicaciones().shouldBe(550548)
       }
+      it("el usuario le da me gusta a una publicacion"){
+        val zuckerberg = Usuario()
+        zuckerberg.agregarPublicacion(fotoEnCuzco)
+        zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
+        fotoEnCuzco.cantidadDeMeGustasQueTieneLaPublicacion().shouldBe(1)
+      }
+      
     }
   }
 })

@@ -3,7 +3,14 @@ package ar.edu.unahur.obj2.caralibro
 import kotlin.math.ceil
 
 abstract class Publicacion {
+
+  var cantidadDeMeGustas = 0
   abstract fun espacioQueOcupa(): Int
+
+  fun aumentarMeGusta(){
+    cantidadDeMeGustas+=1
+  }
+  fun cantidadDeMeGustasQueTieneLaPublicacion() = cantidadDeMeGustas
 }
 
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {
