@@ -1,5 +1,6 @@
 package ar.edu.unahur.obj2.caralibro
 
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
@@ -8,44 +9,38 @@ import io.kotest.matchers.shouldBe
 
 class UsuarioTest : DescribeSpec({
   describe("Caralibro") {
+
+    // Publicaciones
     val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
     val fotoEnCuzco = Foto(768, 1024)
     val fotoEnUNAHUR = Foto(720, 1080)
 
-    // ¿El escenario general de usuarios se definiría acá y dentro del 'describe'
-    // cada situación particular...? ¿juana, suckerberg, etc. van acá y algunas
-    // acciones? así también se pueden reutilizar en varios test
+    // Usuarios
+    val juana = Usuario()
+    val zuckerberg = Usuario()
+    val saverin = Usuario()
+    val parker = Usuario()
 
     factorDeCompresion.factor = 0.7
+
     describe("Un usuario") {
       it("puede calcular el espacio que ocupan sus publicaciones") {
-        val juana = Usuario()
         juana.agregarPublicacion(fotoEnCuzco)
         juana.agregarPublicacion(saludoCumpleanios)
         juana.espacioDePublicaciones().shouldBe(550548)
       }
       it("el usuario le da me gusta a una publicacion"){
-        val zuckerberg = Usuario()
         zuckerberg.agregarPublicacion(fotoEnCuzco)
         zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
         fotoEnCuzco.cantidadDeMeGustasQueTieneLaPublicacion().shouldBe(1)
       }
       it("el usuario le da me gusta a una publicación repetida") {
-        val zuckerberg = Usuario()
-        // debería ser Null porque se está instanciando nuevamente a zuckberg y
-        // no sería el mismo objeto que en el 'it' anterior
-        // además que falta desarrollar esa función (quizás no sea un Null el retorno)
-        //-no tendria sentido este test porq si pongo en una lista que se agregan los usuarios que le dieron mg
-        zuckerberg.darleMeGustaAUnaPublicacion((fotoEnCuzco)).shouldBeNull()
+        zuckerberg.agregarPublicacion(fotoEnCuzco)
+        zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
+        shouldThrowAny { zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco) }
+        fotoEnCuzco.cantidadDeMeGustasQueTieneLaPublicacion().shouldBe(1)
       }
       it("el usuario zuckerberg tiene mas amigos que el saverin"){
-        // CONSULTA: estos usuarios son locales al 'it' y no serían los
-        // mismos que antes (por ejemplo, este zuckerberg es una nueva instancia,)-no son los mismos
-
-        val zuckerberg = Usuario()
-        val saverin = Usuario()
-        val parker = Usuario()
-
         zuckerberg.agregarUnAmigoNuevo(parker)
         zuckerberg.esMasAmistosoQue(saverin).shouldBeTrue() // agregué la condición
       }
@@ -53,7 +48,6 @@ class UsuarioTest : DescribeSpec({
         // FALTA DESARROLLAR fun puedeVer(Publicacion)
       }
       it("el usuario Zukerberg le da mg y se agrega a los que le dieron mg a la publicacion"){
-        val zuckerberg = Usuario()
         zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
         fotoEnCuzco.usuariosQueLeGusta.size.shouldBe(1)
       }
