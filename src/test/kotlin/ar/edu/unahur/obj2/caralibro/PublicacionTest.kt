@@ -9,10 +9,10 @@ class PublicacionTest : DescribeSpec ({
 
     describe("publicaciones"){
 
-        val fotoEnCuzco = Foto(768, 1024)
-        val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
-        val videoEnAruba = Video(30,CalidadSd)
-        val videoEnMiami = Video(50,Calidad720)
+        val fotoEnCuzco = Foto(768, 1024,publico)
+        val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz",soloAmigos)
+        val videoEnAruba = Video(30,CalidadSd,privadoConListaDePermitidos)
+        val videoEnMiami = Video(50,Calidad720,publicoConListaDeExcluidos)
 
         describe("de tipo foto"){
             it("se crea correctamente una publicacion del tipo foto"){
@@ -22,7 +22,7 @@ class PublicacionTest : DescribeSpec ({
                 fotoEnCuzco.espacioQueOcupa().shouldBe(550503)
             }
             it("se crea una nueva foto, se modifica el factor de compresion y se les aplica a las 2"){
-                val fotoEnElObelisco = Foto(768,1020)
+                val fotoEnElObelisco = Foto(768,1020,soloAmigos)
                 fotoEnElObelisco.cambiarElValorDeCompresion(0.5)
                 fotoEnCuzco.espacioQueOcupa().shouldBe(393216)
                 fotoEnElObelisco.espacioQueOcupa().shouldBe(391680)

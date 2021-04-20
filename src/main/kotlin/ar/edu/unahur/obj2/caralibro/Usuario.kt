@@ -6,6 +6,8 @@ class Usuario() {
 
   val amigosDelUsuario = mutableListOf<Usuario>()
 
+  val listaDeExclusion = mutableListOf<Usuario>()
+
   fun agregarPublicacion(publicacion: Publicacion) {
     publicaciones.add(publicacion)
   }
@@ -17,6 +19,13 @@ class Usuario() {
     amigosDelUsuario.add(amigoNuevo)
   }
 
+  fun agregarUnUsuarioALaListaDeExcluidos(usuarioAAgregar: Usuario){
+    check(!listaDeExclusion.contains(usuarioAAgregar)){
+      "El usuario que se quiere agregar ya forma parte de la lista de usuarios de exclusion"
+    }
+    listaDeExclusion.add(usuarioAAgregar)
+  }
+
   fun cantidadDeAmigosDelUsuario() = amigosDelUsuario.size
 
   fun espacioDePublicaciones() = publicaciones.sumBy { it.espacioQueOcupa() }
@@ -26,4 +35,8 @@ class Usuario() {
   }
 
   fun esMasAmistosoQue(usuarioAComparar: Usuario) = this.cantidadDeAmigosDelUsuario() > usuarioAComparar.cantidadDeAmigosDelUsuario()
+
+  fun permiteVerLaPublicacion(usuarioQueDeseaVerLaPublicacion: Usuario,publicacion: Publicacion){
+    publicacion.puedeSerVistaPorUnUsuario(usuarioQueDeseaVerLaPublicacion,this)
+  }
 }

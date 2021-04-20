@@ -11,9 +11,9 @@ class UsuarioTest : DescribeSpec({
   describe("Caralibro") {
 
     // Publicaciones
-    val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz")
-    val fotoEnCuzco = Foto(768, 1024)
-    val fotoEnUNAHUR = Foto(720, 1080)
+    val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz",publicoConListaDeExcluidos)
+    val fotoEnCuzco = Foto(768, 1024,publico)
+    val fotoEnUNAHUR = Foto(720, 1080,soloAmigos)
 
     // Usuarios
     val juana = Usuario()
@@ -45,12 +45,14 @@ class UsuarioTest : DescribeSpec({
         zuckerberg.esMasAmistosoQue(saverin).shouldBeTrue() // agregué la condición
       }
       it("el usuario zuckerberg no puede ver la fotoEnUNAHUR") {
-        // FALTA DESARROLLAR fun puedeVer(Publicacion)
+        saverin.agregarPublicacion(fotoEnUNAHUR)
+        saverin.permiteVerLaPublicacion(zuckerberg,fotoEnUNAHUR)
       }
       it("el usuario Zukerberg le da mg y se agrega a los que le dieron mg a la publicacion"){
         zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
         fotoEnCuzco.usuariosQueLeGusta.size.shouldBe(1)
       }
+
     }
   }
 })

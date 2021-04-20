@@ -5,6 +5,8 @@ import kotlin.math.ceil
 abstract class Publicacion {
   var usuariosQueLeGusta = mutableListOf<Usuario>()
   abstract fun espacioQueOcupa(): Int
+
+  abstract fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario)
   //cambie a la forma que dijiste vos
   fun cantidadDeMeGustasQueTieneLaPublicacion() = usuariosQueLeGusta.size
 
@@ -14,28 +16,43 @@ abstract class Publicacion {
     }
     usuariosQueLeGusta.add(usuarioQueLeDioMg)
   }
+
+
 }
 
-
-
-class Foto(val alto: Int, val ancho: Int) : Publicacion() {
+class Foto(val alto: Int, val ancho: Int, val permiso: Permiso) : Publicacion() {
   val factorDeCompresionDeFoto = factorDeCompresion
   override fun espacioQueOcupa() = ceil(alto * ancho * factorDeCompresionDeFoto.factor).toInt()
+  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) {
+    permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
+  }
 
   fun cambiarElValorDeCompresion(nuevoValor : Double){
     factorDeCompresion.cambiarFactorDeCompresion(nuevoValor)
   }
+
 }
 
-class Texto(val contenido: String) : Publicacion() {
+class Texto(val contenido: String,val permiso: Permiso) : Publicacion() {
   override fun espacioQueOcupa() = contenido.length
+  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) {
+    permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
+  }
 }
-class Video(val duracion: Int, val calidad: Calidad) : Publicacion(){
+
+class Video(val duracion: Int, val calidad: Calidad,val permiso: Permiso) : Publicacion(){
   var calidadDeVideo = calidad
   override fun espacioQueOcupa() = duracion * calidadDeVideo.valorPorCalidad()
 
-  fun cambiarCalidad( nuevaCalidad: Calidad){
-      calidadDeVideo = nuevaCalidad
+  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) {
+    permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
+  }
+
+  fun cambiarCalidadA720(){
+    calidadDeVideo = Calidad720
+  }
+  fun cambiarCalidadA1080(){
+    calidadDeVideo = Calidad1080
   }
 }
 
@@ -58,4 +75,21 @@ object factorDeCompresion{
   fun cambiarFactorDeCompresion(nuevoFactor: Double){
     factor = nuevoFactor
   }
+}
+
+abstract class Permiso(){
+  abstract fun puedeVerLaPublicacion(usuarioQueQuiereVerLaPublicacion :Usuario, usuarioQueTieneLaPublicacion :Usuario) : Boolean
+}
+object publico: Permiso() {
+  override fun puedeVerLaPublicacion(usuarioQueQuiereVerLaPublicacion: Usuario, usuarioQueTieneLaPublicacion :Usuario) = true
+}
+object soloAmigos: Permiso() {
+  override fun puedeVerLaPublicacion(usuarioQueQuiereVerLaPublicacion: Usuario, usuarioQueTieneLaPublicacion :Usuario) =  usuarioQueTieneLaPublicacion.amigosDelUsuario.contains(usuarioQueQuiereVerLaPublicacion)
+}
+object privadoConListaDePermitidos: Permiso(){
+  override fun puedeVerLaPublicacion(usuarioQueQuiereVerLaPublicacion: Usuario, usuarioQueTieneLaPublicacion :Usuario) =  usuarioQueTieneLaPublicacion.listaDeExclusion.contains(usuarioQueQuiereVerLaPublicacion)
+}
+
+object publicoConListaDeExcluidos: Permiso(){
+  override fun puedeVerLaPublicacion(usuarioQueQuiereVerLaPublicacion: Usuario, usuarioQueTieneLaPublicacion :Usuario) =  !usuarioQueTieneLaPublicacion.listaDeExclusion.contains(usuarioQueQuiereVerLaPublicacion)
 }
