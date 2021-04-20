@@ -4,14 +4,19 @@ import kotlin.math.ceil
 
 abstract class Publicacion {
   var usuariosQueLeGusta = mutableListOf<Usuario>()
-  var cantidadDeMeGustas = 0 // esto puede eliminarse e incorporarse a la función un 'lenght'
   abstract fun espacioQueOcupa(): Int
+  //cambie a la forma que dijiste vos
+  fun cantidadDeMeGustasQueTieneLaPublicacion() = usuariosQueLeGusta.size
 
-  fun aumentarMeGusta(){
-    cantidadDeMeGustas+=1
+  fun agregarUnUsuarioAUsuariosQueLeDieronMeGusta(usuarioQueLeDioMg: Usuario){
+    check(!usuariosQueLeGusta.contains(usuarioQueLeDioMg)){
+      "El usuario ya le dio me gusta a la publicacion"
+    }
+    usuariosQueLeGusta.add(usuarioQueLeDioMg)
   }
-  fun cantidadDeMeGustasQueTieneLaPublicacion() = cantidadDeMeGustas
 }
+
+
 
 class Foto(val alto: Int, val ancho: Int) : Publicacion() {
   val factorDeCompresionDeFoto = factorDeCompresion

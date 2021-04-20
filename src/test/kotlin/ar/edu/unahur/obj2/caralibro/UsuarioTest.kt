@@ -35,11 +35,13 @@ class UsuarioTest : DescribeSpec({
         // debería ser Null porque se está instanciando nuevamente a zuckberg y
         // no sería el mismo objeto que en el 'it' anterior
         // además que falta desarrollar esa función (quizás no sea un Null el retorno)
+        //-no tendria sentido este test porq si pongo en una lista que se agregan los usuarios que le dieron mg
         zuckerberg.darleMeGustaAUnaPublicacion((fotoEnCuzco)).shouldBeNull()
       }
       it("el usuario zuckerberg tiene mas amigos que el saverin"){
         // CONSULTA: estos usuarios son locales al 'it' y no serían los
-        // mismos que antes (por ejemplo, este zuckerberg es una nueva instancia)
+        // mismos que antes (por ejemplo, este zuckerberg es una nueva instancia,)-no son los mismos
+
         val zuckerberg = Usuario()
         val saverin = Usuario()
         val parker = Usuario()
@@ -49,6 +51,11 @@ class UsuarioTest : DescribeSpec({
       }
       it("el usuario zuckerberg no puede ver la fotoEnUNAHUR") {
         // FALTA DESARROLLAR fun puedeVer(Publicacion)
+      }
+      it("el usuario Zukerberg le da mg y se agrega a los que le dieron mg a la publicacion"){
+        val zuckerberg = Usuario()
+        zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
+        fotoEnCuzco.usuariosQueLeGusta.size.shouldBe(1)
       }
     }
   }

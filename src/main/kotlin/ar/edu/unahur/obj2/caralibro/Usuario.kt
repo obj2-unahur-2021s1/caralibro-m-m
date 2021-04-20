@@ -1,6 +1,7 @@
 package ar.edu.unahur.obj2.caralibro
 
-class Usuario {
+class Usuario() {
+
   val publicaciones = mutableListOf<Publicacion>()
 
   val amigosDelUsuario = mutableListOf<Usuario>()
@@ -21,7 +22,7 @@ class Usuario {
   fun espacioDePublicaciones() = publicaciones.sumBy { it.espacioQueOcupa() }
 
   fun darleMeGustaAUnaPublicacion(publicacion: Publicacion){
-    publicacion.aumentarMeGusta()
+    publicacion.agregarUnUsuarioAUsuariosQueLeDieronMeGusta(this)
   }
 
   fun esMasAmistosoQue(usuarioAComparar: Usuario) = this.cantidadDeAmigosDelUsuario() > usuarioAComparar.cantidadDeAmigosDelUsuario()
