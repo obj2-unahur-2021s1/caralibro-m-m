@@ -6,7 +6,8 @@ abstract class Publicacion {
   var usuariosQueLeGusta = mutableListOf<Usuario>()
   abstract fun espacioQueOcupa(): Int
 
-  abstract fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario)
+  abstract fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) : Boolean
+
   //cambie a la forma que dijiste vos
   fun cantidadDeMeGustasQueTieneLaPublicacion() = usuariosQueLeGusta.size
 
@@ -23,9 +24,8 @@ abstract class Publicacion {
 class Foto(val alto: Int, val ancho: Int, val permiso: Permiso) : Publicacion() {
   val factorDeCompresionDeFoto = factorDeCompresion
   override fun espacioQueOcupa() = ceil(alto * ancho * factorDeCompresionDeFoto.factor).toInt()
-  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) {
-    permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
-  }
+  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) = permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
+
 
   fun cambiarElValorDeCompresion(nuevoValor : Double){
     factorDeCompresion.cambiarFactorDeCompresion(nuevoValor)
@@ -35,18 +35,16 @@ class Foto(val alto: Int, val ancho: Int, val permiso: Permiso) : Publicacion() 
 
 class Texto(val contenido: String,val permiso: Permiso) : Publicacion() {
   override fun espacioQueOcupa() = contenido.length
-  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) {
-    permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
-  }
+  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) = permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
+
 }
 
 class Video(val duracion: Int, val calidad: Calidad,val permiso: Permiso) : Publicacion(){
   var calidadDeVideo = calidad
   override fun espacioQueOcupa() = duracion * calidadDeVideo.valorPorCalidad()
 
-  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) {
-    permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
-  }
+  override fun puedeSerVistaPorUnUsuario(usuarioQueQuiereVerla: Usuario, usuarioQueLaTiene: Usuario) =  permiso.puedeVerLaPublicacion(usuarioQueQuiereVerla, usuarioQueLaTiene)
+
 
   fun cambiarCalidadA720(){
     calidadDeVideo = Calidad720

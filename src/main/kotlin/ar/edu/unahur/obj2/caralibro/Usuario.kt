@@ -36,7 +36,10 @@ class Usuario() {
 
   fun esMasAmistosoQue(usuarioAComparar: Usuario) = this.cantidadDeAmigosDelUsuario() > usuarioAComparar.cantidadDeAmigosDelUsuario()
 
-  fun permiteVerLaPublicacion(usuarioQueDeseaVerLaPublicacion: Usuario,publicacion: Publicacion){
-    publicacion.puedeSerVistaPorUnUsuario(usuarioQueDeseaVerLaPublicacion,this)
-  }
+  fun permiteVerLaPublicacion(usuarioQueDeseaVerLaPublicacion: Usuario,publicacion: Publicacion) = publicacion.puedeSerVistaPorUnUsuario(usuarioQueDeseaVerLaPublicacion,this)
+
+  fun puedeVerTodasLasPublicaciones(usuarioQuePodria: Usuario) = publicaciones.all {it.puedeSerVistaPorUnUsuario(usuarioQuePodria,this)}
+
+  // revisar
+  fun mejoresAmigos() = amigosDelUsuario.filter { it.puedeVerTodasLasPublicaciones(it) }
 }

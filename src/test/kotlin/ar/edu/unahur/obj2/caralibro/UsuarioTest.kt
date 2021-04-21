@@ -2,8 +2,9 @@ package ar.edu.unahur.obj2.caralibro
 
 import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.collections.shouldContainInOrder
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 
@@ -46,13 +47,23 @@ class UsuarioTest : DescribeSpec({
       }
       it("el usuario zuckerberg no puede ver la fotoEnUNAHUR") {
         saverin.agregarPublicacion(fotoEnUNAHUR)
-        saverin.permiteVerLaPublicacion(zuckerberg,fotoEnUNAHUR)
+        saverin.permiteVerLaPublicacion(zuckerberg,fotoEnUNAHUR).shouldBe(false)
       }
       it("el usuario Zukerberg le da mg y se agrega a los que le dieron mg a la publicacion"){
         zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
         fotoEnCuzco.usuariosQueLeGusta.size.shouldBe(1)
       }
+      it("parker y saverin pueden ver todas las publicaciones"){
+        zuckerberg.agregarPublicacion(fotoEnCuzco)
+        zuckerberg.agregarPublicacion(fotoEnUNAHUR)
+
+        zuckerberg.agregarUnAmigoNuevo(saverin)
+        zuckerberg.agregarUnAmigoNuevo(parker)
+
+        zuckerberg.mejoresAmigos().shouldContainInOrder(saverin,parker)
+      }
 
     }
   }
 })
+
