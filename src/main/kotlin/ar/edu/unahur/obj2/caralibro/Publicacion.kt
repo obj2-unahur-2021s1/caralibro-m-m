@@ -89,5 +89,6 @@ object privadoConListaDePermitidos: Permiso(){
 }
 
 object publicoConListaDeExcluidos: Permiso(){
-  override fun puedeVerLaPublicacion(usuarioQueQuiereVerLaPublicacion: Usuario, usuarioQueTieneLaPublicacion :Usuario) =  !usuarioQueTieneLaPublicacion.listaDeExclusion.contains(usuarioQueQuiereVerLaPublicacion)
+  override fun puedeVerLaPublicacion(usuarioQueQuiereVerLaPublicacion: Usuario, usuarioQueTieneLaPublicacion :Usuario) =
+    !usuarioQueTieneLaPublicacion.listaDeExclusion.contains(usuarioQueQuiereVerLaPublicacion)
 }

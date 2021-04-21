@@ -48,6 +48,7 @@ class Usuario() {
   // cambiaría 'it' por 'this', ya que cada uno de la lista puede ver las publicaciones de la instancia
   //fun mejoresAmigos() = amigosDelUsuario.filter { it.puedeVerTodasLasPublicaciones(this) }
 
+
   fun cuantasPublicacionesMiasPuedeVer(otroAmigo: Usuario) = publicaciones.count { it.puedeSerVistaPorUnUsuario(otroAmigo, this) }
-  fun amigoMasPopular() = amigosDelUsuario.maxOf { cuantasPublicacionesMiasPuedeVer(it) }
+  fun amigoMasPopular() = amigosDelUsuario.maxOf { it.cuantasPublicacionesMiasPuedeVer(it) }
 }
