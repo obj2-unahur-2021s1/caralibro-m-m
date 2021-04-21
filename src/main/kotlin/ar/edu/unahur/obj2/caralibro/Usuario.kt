@@ -50,5 +50,6 @@ class Usuario() {
 
 
   fun cuantasPublicacionesMiasPuedeVer(otroAmigo: Usuario) = publicaciones.count { it.puedeSerVistaPorUnUsuario(otroAmigo, this) }
-  fun amigoMasPopular() = amigosDelUsuario.maxOf { it.cuantasPublicacionesMiasPuedeVer(it) }
+  // fun amigoMasPopular() = amigosDelUsuario.maxOf { it.cuantasPublicacionesMiasPuedeVer(it) }
+  fun amigoMasPopular() = amigosDelUsuario.maxOf { it.cuantasPublicacionesMiasPuedeVer(this) }
 }
