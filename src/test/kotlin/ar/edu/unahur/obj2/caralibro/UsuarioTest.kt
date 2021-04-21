@@ -15,6 +15,9 @@ class UsuarioTest : DescribeSpec({
     val saludoCumpleanios = Texto("Felicidades Pepito, que los cumplas muy feliz",publicoConListaDeExcluidos)
     val fotoEnCuzco = Foto(768, 1024,publico)
     val fotoEnUNAHUR = Foto(720, 1080,soloAmigos)
+    // agregué dos publicaciones del otro test || pero parece que esto no funciona
+    val videoEnAruba = Video(30,CalidadSd,privadoConListaDePermitidos)
+    val videoEnMiami = Video(50,Calidad720,publicoConListaDeExcluidos)
 
     // Usuarios
     val juana = Usuario()
@@ -54,6 +57,7 @@ class UsuarioTest : DescribeSpec({
         fotoEnCuzco.usuariosQueLeGusta.size.shouldBe(1)
       }
       it("parker y saverin pueden ver todas las publicaciones"){
+        // esto lo reformularía "mejores amigos de zuckerberg"
         zuckerberg.agregarPublicacion(fotoEnCuzco)
         zuckerberg.agregarPublicacion(fotoEnUNAHUR)
 
@@ -62,7 +66,27 @@ class UsuarioTest : DescribeSpec({
 
         zuckerberg.mejoresAmigos().shouldContainInOrder(saverin,parker)
       }
+      it("amigo más popular de juana") {
+        // publicaciones de juana
+        val fotoPerfil = Foto(768, 1024,publico)
+        juana.agregarPublicacion(fotoEnCuzco)
+        juana.agregarPublicacion(saludoCumpleanios)
+        juana.agregarPublicacion(fotoEnUNAHUR)
+        juana.agregarPublicacion(fotoPerfil)
 
+        // amigos que dieron me gusta
+        zuckerberg.darleMeGustaAUnaPublicacion(saludoCumpleanios)
+        saverin.darleMeGustaAUnaPublicacion(saludoCumpleanios)
+        saverin.darleMeGustaAUnaPublicacion(fotoPerfil)
+        parker.darleMeGustaAUnaPublicacion(saludoCumpleanios)
+        parker.darleMeGustaAUnaPublicacion(fotoEnCuzco)
+        parker.darleMeGustaAUnaPublicacion(fotoEnUNAHUR)
+        parker.darleMeGustaAUnaPublicacion(fotoPerfil)
+
+        juana.cantidadPublicaciones().shouldBe(4)
+        juana.cuantasPublicacionesMiasPuedeVer(saverin).shouldBe(2)
+        juana.amigoMasPopular().shouldBe(parker)
+      }
     }
   }
 })

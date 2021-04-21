@@ -12,6 +12,9 @@ class Usuario() {
     publicaciones.add(publicacion)
   }
 
+  // esta función es temporal para saber la cantidad de publicaciones de alguien
+  fun cantidadPublicaciones() = publicaciones.size
+
   fun agregarUnAmigoNuevo(amigoNuevo: Usuario){
     check(!amigosDelUsuario.contains(amigoNuevo)){
       "El usuario que se quiere agregar ya es amigo"
@@ -42,4 +45,9 @@ class Usuario() {
 
   // revisar
   fun mejoresAmigos() = amigosDelUsuario.filter { it.puedeVerTodasLasPublicaciones(it) }
+  // cambiaría 'it' por 'this', ya que cada uno de la lista puede ver las publicaciones de la instancia
+  //fun mejoresAmigos() = amigosDelUsuario.filter { it.puedeVerTodasLasPublicaciones(this) }
+
+  fun cuantasPublicacionesMiasPuedeVer(otroAmigo: Usuario) = publicaciones.count { it.puedeSerVistaPorUnUsuario(otroAmigo, this) }
+  fun amigoMasPopular() = amigosDelUsuario.maxOf { cuantasPublicacionesMiasPuedeVer(it) }
 }
