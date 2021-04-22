@@ -51,5 +51,16 @@ class Usuario() {
 
   fun cuantasPublicacionesMiasPuedeVer(otroAmigo: Usuario) = publicaciones.count { it.puedeSerVistaPorUnUsuario(otroAmigo, this) }
   // fun amigoMasPopular() = amigosDelUsuario.maxOf { it.cuantasPublicacionesMiasPuedeVer(it) }
-  fun amigoMasPopular() = amigosDelUsuario.maxOf { it.cuantasPublicacionesMiasPuedeVer(this) }
+
+  fun amigoMasPopular(): Usuario {
+    // arma mapa de usuarios con sus respectivos megusta (cantidad, usuario)
+    var amigosConMeGusta = amigosDelUsuario.map { it to this.cuantasPublicacionesMiasPuedeVer(it) }.toMap()
+    // ordena de mayor a menor la lista
+    var mejorAmigo = amigosConMeGusta.maxByOrNull { it.value }
+    // devuelve filtra el valor máximo
+    amigosDelUsuario.maxByOrNull { this.cuantasPublicacionesMiasPuedeVer(it) }
+
+    return mejorAmigo!!.key
+
+  }
 }
