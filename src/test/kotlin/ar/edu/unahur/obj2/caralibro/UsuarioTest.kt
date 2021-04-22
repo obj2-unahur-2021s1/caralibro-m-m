@@ -89,10 +89,9 @@ class UsuarioTest : DescribeSpec({
 
         juana.cantidadPublicaciones().shouldBe(4)
         juana.cuantasPublicacionesMiasPuedeVer(saverin).shouldBe(3)
-        //fallaba porq el publico con lista de excluidos lo podia ver
         juana.cuantasPublicacionesMiasPuedeVer(parker).shouldBe(4)
         juana.amigoMasPopular().shouldBe(parker)
-        //falla porq parker no esta agregado a la lista de amigos de juana
+
       }
     }
   }
