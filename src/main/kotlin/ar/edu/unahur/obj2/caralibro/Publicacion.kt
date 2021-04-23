@@ -18,6 +18,7 @@ abstract class Publicacion {
     usuariosQueLeGusta.add(usuarioQueLeDioMg)
   }
 
+  fun elUsuarioLeDioMgALaPublicacion(usuarioQueSeBusca: Usuario) = usuariosQueLeGusta.contains(usuarioQueSeBusca)
 
 }
 

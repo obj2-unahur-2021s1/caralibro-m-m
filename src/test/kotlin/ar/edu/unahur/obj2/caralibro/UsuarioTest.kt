@@ -103,7 +103,7 @@ class UsuarioTest : DescribeSpec({
         juana.agregarUnAmigoNuevo(parker)
         juana.agregarUnAmigoNuevo(zuckerberg)
 
-        // Juana hace sus publicaciones
+        // Juana hace sus publicaciones y son 10
         juana.agregarPublicacion(fotoEnCuzco)//publico
         juana.agregarPublicacion(saludoCumpleanios)//publicoConListaDeExcluidos
         juana.agregarPublicacion(fotoEnUNAHUR)//soloAmigos

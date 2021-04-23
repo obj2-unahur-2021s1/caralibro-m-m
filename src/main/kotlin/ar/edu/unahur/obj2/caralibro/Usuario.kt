@@ -54,5 +54,8 @@ class Usuario() {
 
   fun amigoMasPopular() = amigosDelUsuario.maxByOrNull { this.cuantasPublicacionesMiasPuedeVer(it) }
 
-  fun meStalkea(algunUsuario: Usuario) = true
+  //etapa 7
+  fun meStalkea(algunUsuario: Usuario) = this.cantidadDeMgQueLeDioUnUsuarioAMisPublicaciones(algunUsuario) >= (this.cantidadPublicaciones()*0.9)
+
+  fun cantidadDeMgQueLeDioUnUsuarioAMisPublicaciones(unUsuario:Usuario) = publicaciones.count { it.elUsuarioLeDioMgALaPublicacion(unUsuario)}
 }
