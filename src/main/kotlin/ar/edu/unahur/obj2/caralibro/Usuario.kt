@@ -54,4 +54,5 @@ class Usuario() {
 
   fun amigoMasPopular() = amigosDelUsuario.maxByOrNull { this.cuantasPublicacionesMiasPuedeVer(it) }
 
+  fun meStalkea(algunUsuario: Usuario) = true
 }

@@ -18,6 +18,7 @@ class UsuarioTest : DescribeSpec({
     // agregué dos publicaciones del otro test || pero parece que esto no funciona
     val videoEnAruba = Video(30,CalidadSd,privadoConListaDePermitidos)
     val videoEnMiami = Video(50,Calidad720,publicoConListaDeExcluidos)
+    val fotoPerfil = Foto(768, 1024,publico)
 
     // Usuarios
     val juana = Usuario()
@@ -68,7 +69,6 @@ class UsuarioTest : DescribeSpec({
       }
       it("amigo más popular de juana") {
         // publicaciones de juana
-        val fotoPerfil = Foto(768, 1024,publico)
         juana.agregarPublicacion(fotoEnCuzco)//publico
         juana.agregarPublicacion(saludoCumpleanios)//publicoConListaDeExcluidos
         juana.agregarPublicacion(fotoEnUNAHUR)//soloAmigos
@@ -91,7 +91,54 @@ class UsuarioTest : DescribeSpec({
         juana.cuantasPublicacionesMiasPuedeVer(saverin).shouldBe(3)
         juana.cuantasPublicacionesMiasPuedeVer(parker).shouldBe(4)
         juana.amigoMasPopular().shouldBe(parker)
+      }
+      it("usuario stalkea") {
+        // algunas publicaciones nuevas
+        val invitacionVacaciones = Texto("Hola, Lea! Nos vamos de vacaciones a la costa?",publicoConListaDeExcluidos)
+        val fotoSecundario = Foto(480,320,publico)
+        val recuerdosSecundario = Texto("Eramos tan jóvenes!!!",publico)
+        val busquedaLaboral = Texto("¿Alguien necesita un programador?",publico)
 
+        // amigos de juana --> esto se repite y podríamos ponerlo fuera.
+        juana.agregarUnAmigoNuevo(parker)
+        juana.agregarUnAmigoNuevo(zuckerberg)
+
+        // Juana hace sus publicaciones
+        juana.agregarPublicacion(fotoEnCuzco)//publico
+        juana.agregarPublicacion(saludoCumpleanios)//publicoConListaDeExcluidos
+        juana.agregarPublicacion(fotoEnUNAHUR)//soloAmigos
+        juana.agregarPublicacion(fotoPerfil)//publico
+        juana.agregarPublicacion(invitacionVacaciones)
+        juana.agregarPublicacion(fotoSecundario)
+        juana.agregarPublicacion(recuerdosSecundario)
+        juana.agregarPublicacion(videoEnAruba)
+        juana.agregarPublicacion(videoEnMiami)
+        juana.agregarPublicacion(busquedaLaboral)
+
+        // A parker le gustan 9 publicaciones a juana
+        parker.darleMeGustaAUnaPublicacion(fotoEnCuzco)
+        parker.darleMeGustaAUnaPublicacion(saludoCumpleanios)
+        parker.darleMeGustaAUnaPublicacion(fotoEnUNAHUR)
+        parker.darleMeGustaAUnaPublicacion(invitacionVacaciones)
+        parker.darleMeGustaAUnaPublicacion(fotoPerfil)
+        parker.darleMeGustaAUnaPublicacion(fotoSecundario)
+        parker.darleMeGustaAUnaPublicacion(recuerdosSecundario)
+        parker.darleMeGustaAUnaPublicacion(videoEnAruba)
+        parker.darleMeGustaAUnaPublicacion(busquedaLaboral)
+
+        juana.meStalkea(parker).shouldBeTrue()
+
+        // A zuckerberg le gustan 8 publicaciones de juana
+        zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)
+        zuckerberg.darleMeGustaAUnaPublicacion(saludoCumpleanios)
+        zuckerberg.darleMeGustaAUnaPublicacion(fotoEnUNAHUR)
+        zuckerberg.darleMeGustaAUnaPublicacion(invitacionVacaciones)
+        zuckerberg.darleMeGustaAUnaPublicacion(fotoPerfil)
+        zuckerberg.darleMeGustaAUnaPublicacion(fotoSecundario)
+        zuckerberg.darleMeGustaAUnaPublicacion(recuerdosSecundario)
+        zuckerberg.darleMeGustaAUnaPublicacion(videoEnAruba)
+
+        juana.meStalkea(zuckerberg).shouldBeFalse()
       }
     }
   }
