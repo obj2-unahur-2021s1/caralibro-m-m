@@ -67,6 +67,33 @@ class UsuarioTest : DescribeSpec({
 
         zuckerberg.mejoresAmigos().shouldContainInOrder(saverin,parker)
       }
+      it("juana tiene 4 publicaciones"){
+        juana.agregarPublicacion(fotoEnCuzco)//publico
+        juana.agregarPublicacion(saludoCumpleanios)//publicoConListaDeExcluidos
+        juana.agregarPublicacion(fotoEnUNAHUR)//soloAmigos
+        juana.agregarPublicacion(fotoPerfil)//publico
+
+        juana.cantidadPublicaciones().shouldBe(4)
+      }
+      it("saverin puede ver 5 publicaciones de juana"){
+        juana.agregarPublicacion(fotoEnCuzco)//publico
+        juana.agregarPublicacion(saludoCumpleanios)//publicoConListaDeExcluidos
+        juana.agregarPublicacion(fotoEnUNAHUR)//soloAmigos
+        juana.agregarPublicacion(fotoPerfil)//publico
+
+
+        juana.cuantasPublicacionesMiasPuedeVer(saverin).shouldBe(3)
+      }
+      it("parker puede ver 4 publicaciones"){
+        juana.agregarPublicacion(fotoEnCuzco)//publico
+        juana.agregarPublicacion(saludoCumpleanios)//publicoConListaDeExcluidos
+        juana.agregarPublicacion(fotoEnUNAHUR)//soloAmigos
+        juana.agregarPublicacion(fotoPerfil)//publico
+
+        juana.agregarUnAmigoNuevo(parker)
+
+        juana.cuantasPublicacionesMiasPuedeVer(parker).shouldBe(4)
+      }
       it("amigo más popular de juana") {
         // publicaciones de juana
         juana.agregarPublicacion(fotoEnCuzco)//publico
@@ -87,9 +114,7 @@ class UsuarioTest : DescribeSpec({
         parker.darleMeGustaAUnaPublicacion(fotoEnUNAHUR)
         parker.darleMeGustaAUnaPublicacion(fotoPerfil)
 
-        juana.cantidadPublicaciones().shouldBe(4)
-        juana.cuantasPublicacionesMiasPuedeVer(saverin).shouldBe(3)
-        juana.cuantasPublicacionesMiasPuedeVer(parker).shouldBe(4)
+
         juana.amigoMasPopular().shouldBe(parker)
       }
       it("usuario stalkea") {
@@ -127,6 +152,26 @@ class UsuarioTest : DescribeSpec({
         parker.darleMeGustaAUnaPublicacion(busquedaLaboral)
 
         juana.meStalkea(parker).shouldBeTrue()
+
+      }
+      it("zuckerber no stalkea a juana"){
+        val invitacionVacaciones = Texto("Hola, Lea! Nos vamos de vacaciones a la costa?",publicoConListaDeExcluidos)
+        val fotoSecundario = Foto(480,320,publico)
+        val recuerdosSecundario = Texto("Eramos tan jóvenes!!!",publico)
+        val busquedaLaboral = Texto("¿Alguien necesita un programador?",publico)
+
+        juana.agregarUnAmigoNuevo(zuckerberg)
+
+        juana.agregarPublicacion(fotoEnCuzco)//publico
+        juana.agregarPublicacion(saludoCumpleanios)//publicoConListaDeExcluidos
+        juana.agregarPublicacion(fotoEnUNAHUR)//soloAmigos
+        juana.agregarPublicacion(fotoPerfil)//publico
+        juana.agregarPublicacion(invitacionVacaciones)
+        juana.agregarPublicacion(fotoSecundario)
+        juana.agregarPublicacion(recuerdosSecundario)
+        juana.agregarPublicacion(videoEnAruba)
+        juana.agregarPublicacion(videoEnMiami)
+        juana.agregarPublicacion(busquedaLaboral)
 
         // A zuckerberg le gustan 8 publicaciones de juana
         zuckerberg.darleMeGustaAUnaPublicacion(fotoEnCuzco)

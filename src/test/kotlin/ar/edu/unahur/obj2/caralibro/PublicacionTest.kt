@@ -37,6 +37,9 @@ class PublicacionTest : DescribeSpec ({
             it("el espacio que ocupa es 45"){
                 (saludoCumpleanios.espacioQueOcupa() == 45).shouldBeTrue()
             }
+            it("el espacio que ocupa no es de 80"){
+                (saludoCumpleanios.espacioQueOcupa() == 80).shouldBeFalse()
+            }
 
         }
         describe("de tipo video"){
